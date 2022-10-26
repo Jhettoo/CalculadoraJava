@@ -1,14 +1,16 @@
-
 package Calculadora;
 
 public class CalculadoraUI extends javax.swing.JFrame {
 
-    double num1;
-    double num2;
-    Operaciones operacion1 = new Operaciones();
+    double num1=0;
+    double num2=0;
+    Operaciones operacion1 = new Operaciones();    
 
     public CalculadoraUI() {
         initComponents();
+        this.setLocationRelativeTo(null);  //Centra la ventana en la pantalla
+        txtPantallita.setText("");
+        txtPantallota.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -36,6 +38,12 @@ public class CalculadoraUI extends javax.swing.JFrame {
         btnPunto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        txtPantallita.setEditable(false);
+        txtPantallita.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        txtPantallota.setEditable(false);
+        txtPantallota.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         btn8.setText("8");
         btn8.addActionListener(new java.awt.event.ActionListener() {
@@ -120,6 +128,14 @@ public class CalculadoraUI extends javax.swing.JFrame {
                 btn1ActionPerformed(evt);
             }
         });
+        btn1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btn1KeyTyped(evt);
+            }
+        });
 
         btn0.setText("0");
         btn0.addActionListener(new java.awt.event.ActionListener() {
@@ -129,6 +145,11 @@ public class CalculadoraUI extends javax.swing.JFrame {
         });
 
         btnIgual.setText("=");
+        btnIgual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIgualActionPerformed(evt);
+            }
+        });
 
         btnDividir.setText("/");
         btnDividir.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +209,7 @@ public class CalculadoraUI extends javax.swing.JFrame {
                                     .addComponent(btnSumar)))))
                     .addComponent(txtPantallota)
                     .addComponent(txtPantallita))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +249,9 @@ public class CalculadoraUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 117, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,65 +261,128 @@ public class CalculadoraUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn2ActionPerformed
-
-    private void btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0ActionPerformed
-        //txtPantallota.
-    }//GEN-LAST:event_btn0ActionPerformed
-
-    private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn1ActionPerformed
-
-    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn3ActionPerformed
-
-    private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn4ActionPerformed
-
-    private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn5ActionPerformed
-
-    private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn6ActionPerformed
-
-    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn7ActionPerformed
-
-    private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn8ActionPerformed
-
-    private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn9ActionPerformed
-
     private void btnPuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPuntoActionPerformed
-        // TODO add your handling code here:
+        teclaPresionada('.');
     }//GEN-LAST:event_btnPuntoActionPerformed
 
-    private void btnSumarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumarActionPerformed
-        operacion1.suma(num1,num2);
-    }//GEN-LAST:event_btnSumarActionPerformed
+    private void btnDividirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividirActionPerformed
+        if (txtPantallita.getText().equals(""))
+        {
+            txtPantallita.setText(Double.toString(num1)+" ÷");
+            txtPantallota.setText("");
+        }
+        else
+        {
+            calculo();
+            txtPantallita.setText(Double.toString(num1)+" ÷");
+            txtPantallota.setText("");
+        }
+    }//GEN-LAST:event_btnDividirActionPerformed
 
-    private void btnMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMenosActionPerformed
+    private void btnIgualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIgualActionPerformed
+        if (txtPantallita.getText().equals(""))
+        {
+
+            txtPantallota.setText("");
+        }
+        else
+        {
+            calculo();
+            txtPantallita.setText("");
+            txtPantallota.setText(Double.toString(num1));
+        }
+    }//GEN-LAST:event_btnIgualActionPerformed
+
+    private void btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0ActionPerformed
+        teclaPresionada('0');
+    }//GEN-LAST:event_btn0ActionPerformed
+
+    private void btn1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn1KeyTyped
+        // XXXXXXXXXXXXXXXXXX
+    }//GEN-LAST:event_btn1KeyTyped
+
+    private void btn1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn1KeyPressed
+        // XXXXXXXXXXXXXXXXXX
+    }//GEN-LAST:event_btn1KeyPressed
+
+    private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
+        teclaPresionada('1');
+    }//GEN-LAST:event_btn1ActionPerformed
 
     private void btnMultiplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplicarActionPerformed
-        // TODO add your handling code here:
+        if (txtPantallita.getText().equals(""))
+        {
+            txtPantallita.setText(Double.toString(num1)+" x");
+            txtPantallota.setText("");
+        }
+        else
+        {
+            calculo();
+            txtPantallita.setText(Double.toString(num1)+" x");
+            txtPantallota.setText("");
+        }
     }//GEN-LAST:event_btnMultiplicarActionPerformed
 
-    private void btnDividirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDividirActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDividirActionPerformed
+    private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
+        teclaPresionada('3');
+    }//GEN-LAST:event_btn3ActionPerformed
+
+    private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
+        teclaPresionada('2');
+    }//GEN-LAST:event_btn2ActionPerformed
+
+    private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
+        teclaPresionada('4');
+    }//GEN-LAST:event_btn4ActionPerformed
+
+    private void btnMenosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosActionPerformed
+        if (txtPantallita.getText().equals(""))
+        {
+            txtPantallita.setText(Double.toString(num1)+" -");
+            txtPantallota.setText("");
+        }
+        else
+        {
+            calculo();
+            txtPantallita.setText(Double.toString(num1)+" -");
+            txtPantallota.setText("");
+        }
+    }//GEN-LAST:event_btnMenosActionPerformed
+
+    private void btn6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn6ActionPerformed
+        teclaPresionada('6');
+    }//GEN-LAST:event_btn6ActionPerformed
+
+    private void btn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn5ActionPerformed
+        teclaPresionada('5');
+    }//GEN-LAST:event_btn5ActionPerformed
+
+    private void btn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn7ActionPerformed
+        teclaPresionada('7');
+    }//GEN-LAST:event_btn7ActionPerformed
+
+    private void btnSumarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumarActionPerformed
+        if (txtPantallita.getText().equals(""))
+        {
+            txtPantallita.setText(Double.toString(num1)+" +");
+            txtPantallota.setText("");
+        }
+        else
+        {
+            calculo();
+            txtPantallita.setText(Double.toString(num1)+" +");
+            txtPantallota.setText("");
+        }
+
+    }//GEN-LAST:event_btnSumarActionPerformed
+
+    private void btn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn9ActionPerformed
+        teclaPresionada('9');
+    }//GEN-LAST:event_btn9ActionPerformed
+
+    private void btn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn8ActionPerformed
+        teclaPresionada('8');
+    }//GEN-LAST:event_btn8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,7 +416,40 @@ public class CalculadoraUI extends javax.swing.JFrame {
             public void run() {
                 new CalculadoraUI().setVisible(true);
             }
+
         });
+    }
+    public void teclaPresionada(char tecla){
+        if (txtPantallita.getText().equals("")) {
+            txtPantallota.setText(txtPantallota.getText()+tecla);
+            num1 = Double.parseDouble(txtPantallota.getText());
+            
+            //num1 = Double.parseDouble(txtPantallota.getText()) * 10 + tecla;
+            //txtPantallota.setText(Double.toString(num1));
+        }else{
+            txtPantallota.setText(txtPantallota.getText()+tecla);
+            num2 = Double.parseDouble(txtPantallota.getText());
+            
+            //num2 = Double.parseDouble(txtPantallota.getText()) * 10 + tecla;
+            //txtPantallota.setText(Double.toString(num2));
+        }
+    }
+    public void calculo()
+    {
+            String signo = txtPantallita.getText();
+            char c = txtPantallita.getText().charAt(signo.length()-1);
+            switch(c){
+                case '+':   num1=operacion1.suma(num1, num2);
+                            break;
+                case '-':   num1=operacion1.resta(num1, num2);
+                            break;
+                case 'x':   num1=operacion1.multiplicacion(num1, num2);
+                            break;
+                case '÷':   num1= operacion1.divisio(num1, num2);
+                            break;
+                default :   num1=0;
+                            break;
+            }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
